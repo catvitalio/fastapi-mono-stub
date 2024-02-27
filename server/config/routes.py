@@ -1,2 +1,2 @@
-admin_views = []
-routes = []
+ADMIN_VIEWS = []
+ROUTES = []

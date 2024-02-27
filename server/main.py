@@ -1,8 +1,9 @@
 from fastapi import FastAPI
 
-from config import lifespan, routes
+from config import MIDDLEWARE, ROUTES, lifespan
 
 app = FastAPI(
-    routes=routes,
+    routes=ROUTES,
+    middleware=MIDDLEWARE,
     lifespan=lifespan,
 )
