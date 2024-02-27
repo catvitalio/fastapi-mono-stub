@@ -1,0 +1,32 @@
+version: '3.8'
+
+services:
+  server:
+    build:
+      dockerfile: ./server/Dockerfile
+      context: .
+    environment:
+      POSTGRES_URI: postgresql+asyncpg://postgres:postgres@db:5432/postgres
+      SECRET_KEY: 1*ws99d1k6+#tvs^o_hs7w!2-#8gwo9i)6xof!ua16n0c^ff^7
+    command: uvicorn main:app --reload --host 0.0.0.0 --port 8000
+    ports:
+      - 8000:8000
+    volumes:
+      - ./server:/server
+    depends_on:
+      db:
+        condition: service_healthy
+
+  db:
+    image: postgres:16.2-alpine
+    restart: always
+    user: postgres
+    environment:
+      POSTGRES_DB: postgres
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    healthcheck:
+      test: pg_isready
+      interval: 5s
+      timeout: 10s
+      retries: 40

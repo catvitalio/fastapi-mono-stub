@@ -1,0 +1,10 @@
+.DS_Store
+.idea
+.vscode
+.pytest_cache
+
+*.log
+*.pyc
+**/__pycache__/
+*.sql
+*.7z

@@ -1,0 +1,22 @@
+[tool.poetry]
+name = "fastapi-stub"
+version = "0.1.0"
+description = ""
+authors = ["Your Name <you@example.com>"]
+readme = "README.md"
+packages = [{include = "fastapi_stub"}]
+
+[tool.poetry.dependencies]
+python = "^3.12"
+fastapi = "^0.110.0"
+uvicorn = {extras = ["standart"], version = "^0.27.1"}
+pydantic = {extras = ["email"], version = "^2.6.2"}
+pydantic-settings = "^2.2.1"
+sqlalchemy = "^2.0.27"
+asyncpg = "^0.29.0"
+fastapi-jwt-auth = "^0.5.0"
+sqladmin = "^0.16.1"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
