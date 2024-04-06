@@ -5,7 +5,7 @@ from types import ModuleType
 from sqlalchemy.ext.declarative import declarative_base
 
 
-class ModelImporter:
+class ModelImportService:
     @classmethod
     def import_models(cls, directory: str) -> None:
         for root, _, files in os.walk(directory):

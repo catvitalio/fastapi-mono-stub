@@ -6,10 +6,10 @@ from sqlalchemy import engine_from_config, pool
 from sqlalchemy.ext.asyncio import AsyncEngine
 
 from config.settings import settings
-from db.base import Base
-from db.model_importer import ModelImporter
+from src.common.models import Base
+from src.common.services import ModelImportService
 
-ModelImporter.import_models('src')
+ModelImportService.import_models('src')
 alembic_config = context.config
 fileConfig(alembic_config.config_file_name)
 target_metadata = Base.metadata

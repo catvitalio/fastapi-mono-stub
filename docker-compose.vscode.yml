@@ -9,13 +9,20 @@ services:
       POSTGRES_URI: postgresql+asyncpg://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db:5432/${POSTGRES_DB}
       REDIS_URI: redis://redis:6379/1
       SECRET_KEY: ${SECRET_KEY}
-    command: uvicorn main:app --reload --host 0.0.0.0 --port 8000
+    command: 
+      [
+        "sh",
+        "-c",
+        "pip install debugpy -t /tmp && python /tmp/debugpy --listen 0.0.0.0:5678 -m uvicorn main:app --reload --host 0.0.0.0 --port 8000"
+      ]
     ports:
       - 8000:8000
-    volumes:
-      - ./server:/server
+      - 5678:5678
+
     env_file:
       - .env
+    volumes:
+      - ./server:/server
     depends_on:
       db:
         condition: service_healthy
