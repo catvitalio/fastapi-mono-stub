@@ -7,9 +7,7 @@ from sqlalchemy.ext.asyncio import AsyncEngine
 
 from config.settings import settings
 from src.common.models import Base
-from src.common.services import ModelImportService
 
-ModelImportService.import_models('src')
 alembic_config = context.config
 fileConfig(alembic_config.config_file_name)
 target_metadata = Base.metadata
