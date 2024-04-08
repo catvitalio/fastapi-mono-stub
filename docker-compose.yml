@@ -1,26 +1,34 @@
 version: '3.8'
 
+x-server-common: &server-common
+  build:
+    dockerfile: ./server/Dockerfile
+    context: .
+  volumes:
+    - ./server:/server
+  environment:
+    POSTGRES_URI: postgresql+asyncpg://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db:5432/${POSTGRES_DB}
+    REDIS_URI: redis://redis:6379/1
+    SECRET_KEY: ${SECRET_KEY}
+  env_file:
+    - .env
+  depends_on:
+    db:
+      condition: service_healthy
+    redis:
+      condition: service_healthy
+
+
 services:
   server:
-    build:
-      dockerfile: ./server/Dockerfile
-      context: .
-    environment:
-      POSTGRES_URI: postgresql+asyncpg://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db:5432/${POSTGRES_DB}
-      REDIS_URI: redis://redis:6379/1
-      SECRET_KEY: ${SECRET_KEY}
     command: uvicorn main:app --reload --host 0.0.0.0 --port 8000
     ports:
       - 8000:8000
-    volumes:
-      - ./server:/server
-    env_file:
-      - .env
-    depends_on:
-      db:
-        condition: service_healthy
-      redis:
-        condition: service_healthy
+    <<: *server-common
+
+  taskiq:
+    command: taskiq worker config.taskiq:broker --fs-discover --reload
+    <<: *server-common
 
   db:
     image: postgres:16.2-alpine
@@ -32,7 +40,7 @@ services:
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
     healthcheck:
       test: pg_isready
-      interval: 5s
+      interval: 2s
       timeout: 10s
       retries: 40
 
@@ -41,6 +49,6 @@ services:
     restart: always
     healthcheck:
       test: redis-cli --raw incr ping
-      interval: 5s
+      interval: 2s
       timeout: 10s
       retries: 40
