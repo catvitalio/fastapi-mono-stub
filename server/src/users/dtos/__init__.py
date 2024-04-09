@@ -1,1 +1,2 @@
-from .auth import LoginDto, RegisterCompleteDto, RegisterDto
+from .auth import AuthDto, JwtDto
+from .register import RegisterCompleteDto, RegisterDto

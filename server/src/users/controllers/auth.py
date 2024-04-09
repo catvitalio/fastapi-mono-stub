@@ -1,4 +1,5 @@
 from fastapi import APIRouter, Depends, Response
+from sqlalchemy.ext.asyncio import AsyncSession
 
 from config.security import jwt_security
 from src.common.deps.db import get_db
@@ -15,9 +16,3 @@ async def login(dto: LoginDto.Input, response: Response) -> LoginDto.Output:
     jwt_security.set_access_cookie(response, access)
     jwt_security.set_refresh_cookie(response, refresh)
     return LoginDto.Output(access_token=access, refresh_token=refresh)
-
-
-@router.post('/register')
-async def register(dto: RegisterDto.Input) -> RegisterDto.Output:
-    service = RegisterService()
-    return await service.register(dto)

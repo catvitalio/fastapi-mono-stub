@@ -22,5 +22,8 @@ class Settings(BaseSettings):
     MAIL_USE_CREDENTIALS: bool = True
     MAIL_VALIDATE_CERTS: bool = True
 
+    FRONTEND_URL: str = 'http://localhost:3000'
+    BACKEND_URL: str = 'http://localhost:8000'
+
 
 settings = Settings()  # type: ignore
