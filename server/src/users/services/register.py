@@ -15,7 +15,7 @@ from ..models import User
 class RegisterService:
     TOKEN_TTL = timedelta(days=365)
 
-    def __init__(self, db: AsyncSession) -> None:  # noqa: B008
+    def __init__(self, db: AsyncSession) -> None:
         self._db = db
         self._token_service = ConfirmationTokenService(ttl=self.TOKEN_TTL)
 

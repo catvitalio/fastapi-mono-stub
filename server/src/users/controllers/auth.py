@@ -3,16 +3,16 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 from config.security import jwt_security
 from src.common.deps.db import get_db
-from ..dtos.auth import LoginDto, RegisterCompleteDto, RegisterDto
-from ..services.register import RegisterService
+from ..dtos import AuthDto, JwtDto
+from ..services import AuthService
 
 router = APIRouter()
 
 
-@router.post('/login')
-async def login(dto: LoginDto.Input, response: Response) -> LoginDto.Output:
-    access = jwt_security.create_access_token({})
-    refresh = jwt_security.create_refresh_token({})
-    jwt_security.set_access_cookie(response, access)
-    jwt_security.set_refresh_cookie(response, refresh)
-    return LoginDto.Output(access_token=access, refresh_token=refresh)
+@router.post('/auth')
+async def auth(dto: AuthDto, response: Response, db: AsyncSession = Depends(get_db)) -> JwtDto:
+    service = AuthService(db)
+    jwt = await service.auth(dto)
+    jwt_security.set_access_cookie(response, jwt.access_token)
+    jwt_security.set_refresh_cookie(response, jwt.refresh_token)
+    return jwt
