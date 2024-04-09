@@ -13,9 +13,11 @@ from ..models import User
 
 
 class RegisterService:
+    TOKEN_TTL = timedelta(days=365)
+
     def __init__(self, db: AsyncSession) -> None:  # noqa: B008
         self._db = db
-        self._token_service = ConfirmationTokenService(ttl=timedelta(days=365))
+        self._token_service = ConfirmationTokenService(ttl=self.TOKEN_TTL)
 
     async def register(self, dto: RegisterDto) -> None:
         await self._validate_user(dto)
