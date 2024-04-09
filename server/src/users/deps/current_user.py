@@ -1,4 +1,4 @@
-from fastapi import Depends, HTTPException, Security
+from fastapi import Depends, Security
 from fastapi_jwt import JwtAuthorizationCredentials
 from sqlalchemy.ext.asyncio import AsyncSession
 
@@ -11,7 +11,4 @@ async def get_current_user(
     credentials: JwtAuthorizationCredentials = Security(jwt_security),
     db: AsyncSession = Depends(get_db),
 ) -> User:
-    user = await db.get(User, credentials.subject['id'])
-    if not user or not user.is_active:
-        raise HTTPException(status_code=401, detail='Invalid credentials')
-    return user
+    return await db.get(User, credentials.subject['id'])  # type: ignore
