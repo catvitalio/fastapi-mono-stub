@@ -23,7 +23,7 @@ class RegisterService:
         await self._send_mail(user)
 
     async def _validate_user(self, dto: RegisterDto) -> None:
-        user = self._get_user(dto.email, is_active=True)
+        user = await self._get_user(dto.email, is_active=True)
         if user:
             raise HTTPException(status_code=400, detail='User already exists')
 
