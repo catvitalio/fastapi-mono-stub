@@ -510,17 +510,6 @@ perf = ["ipython"]
 testing = ["flufl.flake8", "importlib-resources (>=1.3)", "jaraco.test (>=5.4)", "packaging", "pyfakefs", "pytest (>=6)", "pytest-checkdocs (>=2.4)", "pytest-cov", "pytest-enabler (>=2.2)", "pytest-mypy", "pytest-perf (>=0.9.2)", "pytest-ruff (>=0.2.1)"]
 
 [[package]]
-name = "iniconfig"
-version = "2.0.0"
-description = "brain-dead simple config-ini parsing"
-optional = false
-python-versions = ">=3.7"
-files = [
-    {file = "iniconfig-2.0.0-py3-none-any.whl", hash = "sha256:b6a85871a79d2e3b22d2d1b94ac2824226a63c6b741c88f7ae975f18b6778374"},
-    {file = "iniconfig-2.0.0.tar.gz", hash = "sha256:2d91e135bf72d31a410b17c16da610a82cb55f6b0477d1a902134b24a455b8b3"},
-]
-
-[[package]]
 name = "jinja2"
 version = "3.1.3"
 description = "A very fast and expressive template engine."
@@ -654,21 +643,6 @@ build-docs = ["cloud-sptheme (>=1.10.1)", "sphinx (>=1.6)", "sphinxcontrib-fullt
 totp = ["cryptography"]
 
 [[package]]
-name = "pluggy"
-version = "1.4.0"
-description = "plugin and hook calling mechanisms for python"
-optional = false
-python-versions = ">=3.8"
-files = [
-    {file = "pluggy-1.4.0-py3-none-any.whl", hash = "sha256:7db9f7b503d67d1c5b95f59773ebb58a8c1c288129a88665838012cfb07b8981"},
-    {file = "pluggy-1.4.0.tar.gz", hash = "sha256:8c85c2876142a764e5b7548e7d9a0e0ddb46f5185161049a79b7e974454223be"},
-]
-
-[package.extras]
-dev = ["pre-commit", "tox"]
-testing = ["pytest", "pytest-benchmark"]
-
-[[package]]
 name = "pyasn1"
 version = "0.5.1"
 description = "Pure-Python implementation of ASN.1 types and DER/BER/CER codecs (X.208)"
@@ -719,24 +693,6 @@ typing-extensions = ">=4.6.1"
 
 [package.extras]
 email = ["email-validator (>=2.0.0)"]
-
-[[package]]
-name = "pydantic-async-validation"
-version = "0.1.2"
-description = "Add async validation to pydantic"
-optional = false
-python-versions = ">=3.8,<4.0"
-files = [
-    {file = "pydantic_async_validation-0.1.2-py3-none-any.whl", hash = "sha256:008cff3e63e04e8b7188599a1e1ffaca12fddf2141cc79fba8eb7ff5f1f8016f"},
-    {file = "pydantic_async_validation-0.1.2.tar.gz", hash = "sha256:46ff74ff7306ecea4763d91964df9f094b20490babefcde1d11c5f756d754ad4"},
-]
-
-[package.dependencies]
-pydantic = ">=2.0.0,<3.0.0"
-pytest = ">=7.4.0,<8.0.0"
-
-[package.extras]
-fastapi = ["fastapi (>=0.100.0,<1.0.0)"]
 
 [[package]]
 name = "pydantic-core"
@@ -847,26 +803,6 @@ python-dotenv = ">=0.21.0"
 [package.extras]
 toml = ["tomli (>=2.0.1)"]
 yaml = ["pyyaml (>=6.0.1)"]
-
-[[package]]
-name = "pytest"
-version = "7.4.4"
-description = "pytest: simple powerful testing with Python"
-optional = false
-python-versions = ">=3.7"
-files = [
-    {file = "pytest-7.4.4-py3-none-any.whl", hash = "sha256:b090cdf5ed60bf4c45261be03239c2c1c22df034fbffe691abe93cd80cea01d8"},
-    {file = "pytest-7.4.4.tar.gz", hash = "sha256:2cf0005922c6ace4a3e2ec8b4080eb0d9753fdc93107415332f50ce9e7994280"},
-]
-
-[package.dependencies]
-colorama = {version = "*", markers = "sys_platform == \"win32\""}
-iniconfig = "*"
-packaging = "*"
-pluggy = ">=0.12,<2.0"
-
-[package.extras]
-testing = ["argcomplete", "attrs (>=19.2.0)", "hypothesis (>=3.56)", "mock", "nose", "pygments (>=2.7.2)", "requests", "setuptools", "xmlschema"]
 
 [[package]]
 name = "python-dotenv"
@@ -1282,4 +1218,4 @@ testing = ["big-O", "jaraco.functools", "jaraco.itertools", "more-itertools", "p
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.12"
-content-hash = "1fb38835eda9e829e3f31f639c20e3b6cf4f29f12ea8aa5650b11116c11c621e"
+content-hash = "d79fb4a829607ab730d0b1fa26219fed4b00be1f9141b095de8cd8183fa7e02b"
