@@ -1,6 +1,7 @@
 from fastapi import APIRouter, Depends, Response
 from fastapi_jwt import JwtAuthorizationCredentials
 from sqlalchemy.ext.asyncio import AsyncSession
+from starlette import status
 
 from config.security import refresh_security
 from src.common.deps.db import get_db
@@ -19,9 +20,10 @@ async def login(dto: LoginDto, db: AsyncSession = Depends(get_db)) -> Response:
 
 
 @router.post('/register')
-async def register(dto: RegisterDto, db: AsyncSession = Depends(get_db)) -> None:
+async def register(dto: RegisterDto, db: AsyncSession = Depends(get_db)) -> Response:
     service = RegisterService(db)
     await service.register(dto)
+    return Response(status_code=status.HTTP_204_NO_CONTENT)
 
 
 @router.post('/register/complete')
