@@ -4,11 +4,10 @@ from fastapi import HTTPException
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from config.security import hasher, jwt_security
 from config.settings import settings
 from src.common.services import ConfirmationTokenService
 from src.common.tasks import send_mail
-from ..dtos import JwtDto, RegisterCompleteDto, RegisterDto
+from ..dtos import RegisterCompleteDto, RegisterDto
 from ..models import User
 
 
@@ -59,12 +58,16 @@ class RegisterService:
             [user.email],
         )
 
-    async def complete(self, dto: RegisterCompleteDto) -> JwtDto:
+    async def complete(self, dto: RegisterCompleteDto) -> User:
         id = self._token_service.decode(dto.token)  # noqa: A001
         user = await self._db.get(User, int(id))
+
+        if not user:
+            raise HTTPException(status_code=404, detail='User not found')
+        elif user.is_active:
+            raise HTTPException(status_code=400, detail='User already active')
+
         user.is_active = True
         await self._db.commit()
-        return JwtDto(
-            access_token=jwt_security.create_access_token({'id': user.id}),
-            refresh_token=jwt_security.create_refresh_token({'id': user.id}),
-        )
+
+        return user

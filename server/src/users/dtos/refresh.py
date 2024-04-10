@@ -1,6 +1,5 @@
 from pydantic import BaseModel
 
 
-class JwtDto(BaseModel):
-    access_token: str
+class RefreshDto(BaseModel):
     refresh_token: str

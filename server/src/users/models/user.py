@@ -9,4 +9,4 @@ class User(Base):
     first_name = Column(String, index=True)
     last_name = Column(String, index=True)
     is_active = Column(Boolean, default=True)
-    is_admin = Column(Boolean, default=False)
+    # is_admin = Column(Boolean, default=False)
