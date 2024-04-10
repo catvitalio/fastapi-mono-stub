@@ -3,15 +3,15 @@ from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from config.security import hasher, jwt_security
-from ..dtos import AuthDto, JwtDto
+from ..dtos import JwtDto, LoginDto
 from ..models import User
 
 
-class AuthService:
+class LoginService:
     def __init__(self, db: AsyncSession) -> None:
         self._db = db
 
-    async def auth(self, dto: AuthDto) -> JwtDto:
+    async def login(self, dto: LoginDto) -> JwtDto:
         user = await self._get_user(dto.email)
         if not user or not hasher.verify(dto.password, user.hashed_password):
             raise HTTPException(status_code=401, detail='Invalid credentials')

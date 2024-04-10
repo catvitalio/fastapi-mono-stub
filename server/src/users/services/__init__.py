@@ -1,2 +1,2 @@
-from .auth import AuthService
+from .login import LoginService
 from .register import RegisterService
