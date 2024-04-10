@@ -4,6 +4,7 @@ from fastapi import HTTPException
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
+from config.security import hasher
 from config.settings import settings
 from src.common.services import ConfirmationTokenService
 from src.common.tasks import send_mail
