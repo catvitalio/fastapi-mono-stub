@@ -1,9 +1,8 @@
 from fastapi import APIRouter, Depends, Response
 from fastapi_jwt import JwtAuthorizationCredentials
 from sqlalchemy.ext.asyncio import AsyncSession
-from starlette.status import HTTP_204_NO_CONTENT
 
-from config.security import access_security, refresh_security
+from config.security import refresh_security
 from src.common.deps.db import get_db
 from ..dtos import LoginDto, RegisterCompleteDto, RegisterDto
 from ..services import LoginService, RegisterService
@@ -42,7 +41,4 @@ async def refresh(refresh: JwtAuthorizationCredentials = Depends(refresh_securit
 
 @router.post('/logout')
 async def logout() -> Response:
-    response = Response(status_code=HTTP_204_NO_CONTENT)
-    access_security.set_access_cookie(response, '')
-    refresh_security.set_refresh_cookie(response, '')
-    return response
+    return get_jwt_response(None)

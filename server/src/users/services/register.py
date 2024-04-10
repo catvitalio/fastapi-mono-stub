@@ -26,7 +26,7 @@ class RegisterService:
     async def _validate_user(self, dto: RegisterDto) -> None:
         user = await self._get_user(dto.email, is_active=True)
         if user:
-            raise HTTPException(status_code=400, detail='User already exists')
+            raise HTTPException(status_code=400, detail='User with this email already exists')
 
     async def _create_user(self, dto: RegisterDto) -> User:
         user = await self._get_user(dto.email, is_active=False)
@@ -63,7 +63,7 @@ class RegisterService:
         user = await self._db.get(User, int(id))
 
         if not user:
-            raise HTTPException(status_code=404, detail='User not found')
+            raise HTTPException(status_code=401, detail='Invalid token')
         elif user.is_active:
             raise HTTPException(status_code=400, detail='User already active')
 

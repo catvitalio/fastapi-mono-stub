@@ -1,4 +1,2 @@
-from .login import LoginDto
+from .auth import LoginDto, RegisterCompleteDto, RegisterDto
 from .me import MeDto
-from .refresh import RefreshDto
-from .register import RegisterCompleteDto, RegisterDto
