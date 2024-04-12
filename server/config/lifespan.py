@@ -5,6 +5,7 @@ from fastapi import FastAPI
 from redis.asyncio import ConnectionPool
 from sqladmin import Admin, BaseView
 
+from src.users.services.admin_auth import AdminAuthService
 from .db import engine
 from .routes import ADMIN_VIEWS
 from .settings import settings
@@ -12,7 +13,7 @@ from .taskiq import broker
 
 
 def startup_admin(app: FastAPI, views: Iterable[type[BaseView]]) -> None:
-    admin = Admin(app, engine=engine)
+    admin = Admin(app, engine=engine, authentication_backend=AdminAuthService(settings.SECRET_KEY))
     for view in views:
         admin.add_view(view)
 
