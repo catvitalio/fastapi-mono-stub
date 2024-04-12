@@ -28,6 +28,9 @@ class AdminAuthService(AuthenticationBackend):
             except HTTPException:
                 return False
 
+        if not user.is_admin:
+            return False
+
         access_token, refresh_token = create_jwt_tokens(user.id)
         request.session.update({'access_token': access_token, 'refresh_token': refresh_token})
 
@@ -69,7 +72,9 @@ class AdminAuthService(AuthenticationBackend):
             except JWTError:
                 return None
 
-            return await get_current_user(
+            user = await get_current_user(
                 JwtAuthorizationCredentials(decoded_jwt['subject'], decoded_jwt['jti']),
                 db,
             )
+
+        return user if user.is_admin else None
