@@ -19,6 +19,7 @@ class LoginService:
         return user
 
     async def _get_user(self, email: str) -> User | None:
-        stmt = select(User).where(User.email == email, User.is_active == True)
-        users = await self._db.execute(stmt)
-        return users.scalar_one_or_none()
+        results = await self._db.execute(
+            select(User).where(User.email == email, User.is_active == True),
+        )
+        return results.scalar_one_or_none()

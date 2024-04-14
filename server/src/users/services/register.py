@@ -46,9 +46,10 @@ class RegisterService:
         return user
 
     async def _get_user(self, email: str, *, is_active: bool) -> User | None:
-        stmt = select(User).where(User.email == email, User.is_active == is_active)
-        users = await self._db.execute(stmt)
-        return users.scalar_one_or_none()
+        results = await self._db.execute(
+            select(User).where(User.email == email, User.is_active == is_active),
+        )
+        return results.scalar_one_or_none()
 
     async def _send_mail(self, user: User) -> None:
         token = self._token_service.generate(user.id)
