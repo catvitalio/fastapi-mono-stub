@@ -9,7 +9,7 @@ from sqladmin.authentication import AuthenticationBackend
 from starlette.requests import Request
 
 from config.security import access_security, refresh_security
-from ...common.deps.db import get_db
+from src.common.deps.db import get_db
 from ..deps import get_current_user
 from ..dtos.auth import LoginDto
 from ..models.user import User
