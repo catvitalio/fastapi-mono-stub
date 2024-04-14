@@ -13,5 +13,5 @@ access_security = JwtAccessBearerCookie(
     access_expires_delta=timedelta(minutes=30),
     refresh_expires_delta=timedelta(days=30),
 )
-refresh_security = JwtRefreshBearerCookie.from_other(access_security)
+refresh_security: JwtRefreshBearerCookie = JwtRefreshBearerCookie.from_other(access_security)  # type: ignore
 hasher = CryptContext(schemes=['bcrypt'], deprecated='auto')
