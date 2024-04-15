@@ -1,0 +1,7 @@
+localhost {
+    reverse_proxy /api* server:8000
+    reverse_proxy /admin* server:8000
+    reverse_proxy /docs* server:8000
+    root * /srv
+    file_server
+}
