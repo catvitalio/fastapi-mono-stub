@@ -1,3 +1,5 @@
+from typing import NoReturn
+
 from sqlalchemy import select
 from starlette.requests import Request
 from starlette.responses import Response
@@ -6,7 +8,7 @@ from starlette_admin.exceptions import LoginFailed
 
 from src.common.deps.db import get_db
 from ..dtos.auth import LoginDto
-from ..exceptions.auth import AuthException, InvalidCredentialsException
+from ..exceptions.auth import AuthException
 from ..models.user import User
 from ..services import LoginService
 
@@ -25,13 +27,17 @@ class EmailAndPasswordProvider(AuthProvider):
 
         try:
             user = await login_service.login(LoginDto(email=username, password=password))
-            if not user.is_admin:
-                raise InvalidCredentialsException
         except AuthException:
-            raise LoginFailed('Invalid username or password')
+            self._raise_login_failed()
+
+        if not user.is_admin:
+            self._raise_login_failed()
 
         request.session.update({'username': user.email})
         return response
+
+    def _raise_login_failed(self) -> NoReturn:
+        raise LoginFailed('Invalid username or password')
 
     async def is_authenticated(self, request) -> bool:
         db = await anext(get_db())
