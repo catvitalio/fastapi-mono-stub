@@ -1,1 +1,2 @@
-from .users import UserAdmin
+from .auth_provider import EmailAndPasswordProvider
+from .user import UserView

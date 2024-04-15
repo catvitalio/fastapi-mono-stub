@@ -1,1 +1,1 @@
-from .auth import AdminAuthService, LoginService, RegisterService
+from .auth import LoginService, RegisterService

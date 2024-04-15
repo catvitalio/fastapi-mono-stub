@@ -1,21 +1,10 @@
 from contextlib import asynccontextmanager
-from typing import Iterable
 
 from fastapi import FastAPI
 from redis.asyncio import ConnectionPool
-from sqladmin import Admin, BaseView
 
-from src.users.services import AdminAuthService
-from .db import engine
-from .routes import ADMIN_VIEWS
 from .settings import settings
 from .taskiq import broker
-
-
-def startup_admin(app: FastAPI, views: Iterable[type[BaseView]]) -> None:
-    admin = Admin(app, engine=engine, authentication_backend=AdminAuthService(settings.SECRET_KEY))
-    for view in views:
-        admin.add_view(view)
 
 
 async def startup_taskiq_broker() -> None:
@@ -38,7 +27,6 @@ async def shutdown_redis(app: FastAPI) -> None:
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    startup_admin(app, ADMIN_VIEWS)
     await startup_redis(app)
     await startup_taskiq_broker()
     yield
