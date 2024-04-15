@@ -9,3 +9,4 @@
 *.sql
 *.7z
 .env
+.ruff_cache
