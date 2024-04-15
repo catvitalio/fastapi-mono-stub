@@ -1,10 +1,10 @@
 from sqlalchemy import Integer
 from sqlalchemy.ext.declarative import declared_attr
-from sqlalchemy.orm import DeclarativeBase, mapped_column
+from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column
 
 
 class Base(DeclarativeBase):
-    id = mapped_column(Integer, primary_key=True, index=True)  # noqa: A003
+    id: Mapped[int] = mapped_column(Integer, primary_key=True, index=True)  # noqa: A003
     __name__: str  # noqa: A003
 
     @declared_attr  # type: ignore
