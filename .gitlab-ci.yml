@@ -7,8 +7,8 @@ before_script:
 - mkdir -p ~/.ssh
 - chmod 700 ~/.ssh
 - echo "$SSH_KNOWN_HOSTS" > ~/.ssh/known_hosts
-- echo "$PRODUCTION_SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add -
-- echo "$DEVELOP_SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add -
+- echo "$PROD_SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add -
+- echo "$STAGE_SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add -
 - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" $CI_REGISTRY
 - docker login -u "$DOCKER_USER" -p "$DOCKER_PASSWORD"
 
@@ -68,13 +68,13 @@ build-master:
 deploy-develop:
   stage: deploy
   script:
-  - ./deploy/deploy.stage.sh $DEVELOP_USER $DEVELOP_HOST
+  - ./deploy/deploy.stage.sh $STAGE_USER $STAGE_HOST
   only:
   - develop
 
 deploy-master:
   stage: deploy
   script:
-  - ./deploy/deploy.prod.sh $PRODUCTION_USER $PRODUCTION_HOST
+  - ./deploy/deploy.prod.sh $PROD_USER $PROD_HOST
   only:
   - master
