@@ -1,6 +1,7 @@
 from typing import Any, Coroutine
 
 from fastapi import Request
+from starlette_admin import BooleanField
 from starlette_admin.contrib.sqla import ModelView
 from starlette_admin.fields import StringField
 
@@ -15,6 +16,8 @@ class UserView(ModelView):
         StringField('hashed_password', 'Пароль'),
         StringField('first_name', 'Имя'),
         StringField('last_name', 'Фамилия'),
+        BooleanField('is_active', 'Активирован'),
+        BooleanField('is_admin', 'Администратор'),
     )
     exclude_fields_from_detail = ('hashed_password',)
     exclude_fields_from_list = ('hashed_password',)
