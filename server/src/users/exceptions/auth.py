@@ -1,29 +1,23 @@
-from fastapi import HTTPException
 from starlette import status
 
+from src.common.exceptions import DeclarativeHTTPException
 
-class AuthException(HTTPException):
-    def __init__(
-        self,
-        status_code: int = status.HTTP_500_INTERNAL_SERVER_ERROR,
-        detail: str = 'Authentication error',
-    ) -> None:
-        super().__init__(status_code=status_code, detail=detail)
+
+class AuthException(DeclarativeHTTPException):
+    status_code = status.HTTP_500_INTERNAL_SERVER_ERROR
+    detail = 'Authentication error'
 
 
 class InvalidCredentialsException(AuthException):
-    def __init__(self) -> None:
-        super().__init__(status_code=status.HTTP_401_UNAUTHORIZED, detail='Invalid credentials')
+    status_code = status.HTTP_401_UNAUTHORIZED
+    detail = 'Invalid credentials'
 
 
 class UserWithThisEmailAlreadyExistsException(AuthException):
-    def __init__(self) -> None:
-        super().__init__(
-            status_code=status.HTTP_400_BAD_REQUEST,
-            detail='User with this email already exists',
-        )
+    status_code = status.HTTP_400_BAD_REQUEST
+    detail = 'User with this email already exists'
 
 
 class UserAlreadyActiveException(AuthException):
-    def __init__(self) -> None:
-        super().__init__(status_code=status.HTTP_400_BAD_REQUEST, detail='User already active')
+    status_code = status.HTTP_400_BAD_REQUEST
+    detail = 'User already active'
