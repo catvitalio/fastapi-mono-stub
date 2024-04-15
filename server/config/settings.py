@@ -7,9 +7,6 @@ class Settings(BaseSettings):
     REDIS_URI: RedisDsn
 
     SECRET_KEY: SecretStr
-    ACCESS_EXPIRE_MINUTES: int = 15
-    REFRESH_EXPIRE_MINUTES: int = 60 * 24 * 30
-    SECURE_HASH_ALGORITHM: str = 'HS256'
 
     MAIL_USERNAME: EmailStr = 'example@mail.com'
     MAIL_PASSWORD: SecretStr = Field('')
