@@ -25,6 +25,46 @@ passlib = "^1.7.4"
 itsdangerous = "^2.1.2"
 starlette-admin = {extras = ["i18n"], version = "^0.13.2"}
 
+[tool.poetry.group.dev.dependencies]
+ruff = "^0.3.7"
+
+[tool.ruff]
+line-length = 100
+indent-width = 4
+exclude = [
+    ".pytype",
+    ".ruff_cache",
+    "__pypackages__",
+    "migrations",
+    "__init__.py",
+]
+
+[tool.ruff.format]
+quote-style = "single"
+indent-style = "space"
+
+[tool.ruff.lint]
+select = ["A", "F", "B", "C", "I", "T", "Q", "COM"]
+ignore = ["B904", "B008"]
+
+[tool.ruff.lint.flake8-quotes]
+inline-quotes = "single"
+
+[tool.ruff.lint.mccabe]
+max-complexity = 7
+
+[tool.ruff.lint.isort]
+no-lines-before = ["local-folder"]
+section-order = ["future", "standard-library", "first-party", "third-party", "src", "local-folder"]
+
+[tool.ruff.lint.isort.sections]
+src = ["config", "migrations", "tests", "src"]
+
+[tool.pytest.ini_options]
+DJANGO_SETTINGS_MODULE = "config.settings"
+python_files = "tests.py test_*.py *_tests.py"
+addopts = "--rootdir=tests --maxfail=5 --reuse-db --no-migrations"
+
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"

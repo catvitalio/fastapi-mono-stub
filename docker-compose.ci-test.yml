@@ -1,10 +1,9 @@
 version: '3.8'
 
 x-server-common: &server-common
-  restart: always
-  image: ${CI_REGISTRY}/${CI_PROJECT_NAMESPACE}/${CI_PROJECT_NAME}/server:develop-latest
-  volumes:
-    - ./media/:/server/media
+  build:
+    dockerfile: ./server/Dockerfile
+    context: .
   environment:
     POSTGRES_URI: postgresql+asyncpg://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db:5432/${POSTGRES_DB}
     REDIS_URI: redis://redis:6379/1
@@ -19,22 +18,10 @@ x-server-common: &server-common
 
 
 services:
-  caddy:
-    image: caddy:2.7.6-alpine
-    restart: always
-    ports:
-      - 80:80
-      - 443:443
-    volumes:
-      - ./caddy/Caddyfile.prod:/etc/caddy/Caddyfile
-      - ./media/:/srv/media
-
   server:
     command: uvicorn main:app --reload --host 0.0.0.0 --port 8000
-    <<: *server-common
-
-  taskiq:
-    command: taskiq worker config.taskiq:broker --fs-discover --reload
+    ports:
+      - 8000:8000
     <<: *server-common
 
   db:

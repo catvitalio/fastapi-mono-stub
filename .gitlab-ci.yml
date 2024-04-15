@@ -1,0 +1,80 @@
+image: docker:20.10
+
+
+before_script:
+- 'which ssh-agent || ( apk add --update --no-cache git openssh-client )'
+- eval $(ssh-agent -s)
+- mkdir -p ~/.ssh
+- chmod 700 ~/.ssh
+- echo "$SSH_KNOWN_HOSTS" > ~/.ssh/known_hosts
+- echo "$PRODUCTION_SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add -
+- echo "$DEVELOP_SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add -
+- docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" $CI_REGISTRY
+- docker login -u "$DOCKER_USER" -p "$DOCKER_PASSWORD"
+
+stages:
+- lint
+- test
+- build
+- deploy
+
+lint:
+  stage: lint
+  image:
+    name: docker/compose:1.27.3
+  before_script:
+  - docker-compose -f docker-compose.ci-test.yml build
+  script:
+  - docker-compose -f docker-compose.ci-test.yml run server ruff --version
+  - docker-compose -f docker-compose.ci-test.yml run server ruff check --config pyproject.toml
+  after_script:
+  - docker-compose down
+  only:
+  - merge_request
+
+test:
+  stage: test
+  image:
+    name: docker/compose:1.27.3
+  before_script:
+  - docker-compose -f docker-compose.ci-test.yml build
+  script:
+  - docker-compose -f docker-compose.ci-test.yml run server pytest
+  after_script:
+  - docker-compose down
+  only:
+  - merge_request
+
+build-develop:
+  stage: build
+  script:
+  - docker build --pull -t "$CI_REGISTRY/$CI_PROJECT_NAMESPACE/$CI_PROJECT_NAME/server:develop-latest" . -f ./server/Dockerfile.stage
+  - docker push "$CI_REGISTRY/$CI_PROJECT_NAMESPACE/$CI_PROJECT_NAME/server:develop-latest"
+  after_script:
+  - docker image rm "$CI_REGISTRY/$CI_PROJECT_NAMESPACE/$CI_PROJECT_NAME/server:develop-latest"
+  only:
+  - develop
+
+build-master:
+  stage: build
+  script:
+  - docker build --pull -t "$CI_REGISTRY/$CI_PROJECT_NAMESPACE/$CI_PROJECT_NAME/server:master-latest" . -f ./server/Dockerfile.prod
+  - docker push "$CI_REGISTRY/$CI_PROJECT_NAMESPACE/$CI_PROJECT_NAME/server:master-latest"
+  after_script:
+  - docker image rm "$CI_REGISTRY/$CI_PROJECT_NAMESPACE/$CI_PROJECT_NAME/server:master-latest"
+  only:
+  - master
+
+deploy-develop:
+  stage: deploy
+  script:
+  - ./deploy/deploy.stage.sh $DEVELOP_USER $DEVELOP_HOST
+  only:
+  - develop
+
+deploy-master:
+  stage: deploy
+  script:
+  - ./deploy/deploy.prod.sh $PRODUCTION_USER $PRODUCTION_HOST
+  only:
+  - master
