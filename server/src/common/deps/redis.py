@@ -3,5 +3,5 @@ from redis.asyncio import ConnectionPool
 from taskiq import TaskiqDepends
 
 
-async def get_redis(request: Request = TaskiqDepends()) -> ConnectionPool:  # noqa: B008
+async def get_redis(request: Request = TaskiqDepends()) -> ConnectionPool:
     return request.app.state.redis_pool

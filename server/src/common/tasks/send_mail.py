@@ -5,7 +5,7 @@ from config.taskiq import broker
 
 
 @broker.task
-async def send_mail(subject: str, template: str, context: dict, recipients: list) -> None:
+async def send_mail(subject: str, template: str, context: dict, recipients: list[str]) -> None:
     schema = MessageSchema(
         subject=subject,
         recipients=recipients,
