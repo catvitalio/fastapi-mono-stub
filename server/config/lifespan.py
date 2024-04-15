@@ -5,7 +5,7 @@ from fastapi import FastAPI
 from redis.asyncio import ConnectionPool
 from sqladmin import Admin, BaseView
 
-from src.users.services.admin_auth import AdminAuthService
+from src.users.services import AdminAuthService
 from .db import engine
 from .routes import ADMIN_VIEWS
 from .settings import settings

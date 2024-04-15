@@ -2,11 +2,11 @@ from datetime import datetime, timedelta
 from typing import TypeAlias
 from uuid import UUID
 
-from fastapi import HTTPException
 from jose import JWTError, jwt
 from jose.constants import ALGORITHMS
 
 from config.settings import settings
+from ..exceptions.confirmation_token import InvalidTokenException
 
 ID: TypeAlias = str | int | UUID
 
@@ -22,7 +22,7 @@ class ConfirmationTokenService:
         try:
             return jwt.decode(token, *self.jwt_args)['sub']
         except (JWTError, KeyError):
-            raise HTTPException(status_code=401, detail='Invalid token')
+            raise InvalidTokenException
 
     @property
     def jwt_args(self) -> tuple:

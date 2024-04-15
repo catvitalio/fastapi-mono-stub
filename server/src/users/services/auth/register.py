@@ -1,15 +1,19 @@
 from datetime import timedelta
 
-from fastapi import HTTPException
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from config.security import hasher
 from config.settings import settings
+from src.common.exceptions.confirmation_token import InvalidTokenException
 from src.common.services import ConfirmationTokenService
 from src.common.tasks import send_mail
-from ..dtos import RegisterCompleteDto, RegisterDto
-from ..models import User
+from ...dtos import RegisterCompleteDto, RegisterDto
+from ...exceptions.auth import (
+    UserAlreadyActiveException,
+    UserWithThisEmailAlreadyExistsException,
+)
+from ...models import User
 
 
 class RegisterService:
@@ -27,7 +31,7 @@ class RegisterService:
     async def _validate_user(self, dto: RegisterDto) -> None:
         user = await self._get_user(dto.email, is_active=True)
         if user:
-            raise HTTPException(status_code=400, detail='User with this email already exists')
+            raise UserWithThisEmailAlreadyExistsException
 
     async def _create_user(self, dto: RegisterDto) -> User:
         user = await self._get_user(dto.email, is_active=False)
@@ -65,9 +69,9 @@ class RegisterService:
         user = await self._db.get(User, int(id))
 
         if not user:
-            raise HTTPException(status_code=401, detail='Invalid token')
+            raise InvalidTokenException
         elif user.is_active:
-            raise HTTPException(status_code=400, detail='User already active')
+            raise UserAlreadyActiveException
 
         user.is_active = True
         await self._db.commit()

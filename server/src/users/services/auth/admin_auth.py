@@ -1,4 +1,3 @@
-from fastapi import HTTPException
 from fastapi_jwt import (
     JwtAccessBearerCookie,
     JwtAuthorizationCredentials,
@@ -10,10 +9,11 @@ from starlette.requests import Request
 
 from config.security import access_security, refresh_security
 from src.common.deps.db import get_db
-from ..deps import get_current_user
-from ..dtos.auth import LoginDto
-from ..models.user import User
-from ..utils import create_jwt_tokens
+from ...deps import get_current_user
+from ...dtos.auth import LoginDto
+from ...exceptions.auth import AuthException
+from ...models.user import User
+from ...utils import create_jwt_tokens
 from .login import LoginService
 
 
@@ -25,7 +25,7 @@ class AdminAuthService(AuthenticationBackend):
         login_service = LoginService(db)
         try:
             user = await login_service.login(LoginDto(email=email, password=password))
-        except HTTPException:
+        except AuthException:
             return False
 
         if not user.is_admin:
