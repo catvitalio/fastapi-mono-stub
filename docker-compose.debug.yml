@@ -1,0 +1,59 @@
+version: '3.8'
+
+x-server-common: &server-common
+  build:
+    dockerfile: ./server/Dockerfile
+    context: .
+  volumes:
+    - ./server:/server
+  environment:
+    POSTGRES_URI: postgresql+asyncpg://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db:5432/${POSTGRES_DB}
+    REDIS_URI: redis://redis:6379/1
+    SECRET_KEY: ${SECRET_KEY}
+  env_file:
+    - .env
+  depends_on:
+    db:
+      condition: service_healthy
+    redis:
+      condition: service_healthy
+
+
+services:
+  server:
+    command: python -m debugpy --listen 0.0.0.0:5678 -m uvicorn main:app --reload --host 0.0.0.0 --port 8000
+    ports:
+      - 8000:8000
+      - 5678:5678
+    <<: *server-common
+
+  taskiq:
+    command: python -m debugpy --listen 0.0.0.0:5679 -m taskiq worker config.taskiq:broker --fs-discover --reload
+    ports:
+      - 5679:5679
+    <<: *server-common
+
+  db:
+    image: postgres:16.2-alpine
+    restart: always
+    user: postgres
+    ports:
+      - 5432:5432
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    healthcheck:
+      test: pg_isready
+      interval: 2s
+      timeout: 10s
+      retries: 40
+
+  redis:
+    image: redis:7.2.4-alpine
+    restart: always
+    healthcheck:
+      test: redis-cli --raw incr ping
+      interval: 2s
+      timeout: 10s
+      retries: 40

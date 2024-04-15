@@ -23,10 +23,12 @@ taskiq-fastapi = "^0.3.1"
 jinja2 = "^3.1.3"
 passlib = "^1.7.4"
 starlette-admin = {extras = ["i18n"], version = "^0.13.2"}
+itsdangerous = "^2.1.2"
 
 [tool.poetry.group.dev.dependencies]
 ruff = "^0.3.7"
 pytest = "^8.1.1"
+debugpy = "^1.8.1"
 
 [tool.ruff]
 line-length = 100
