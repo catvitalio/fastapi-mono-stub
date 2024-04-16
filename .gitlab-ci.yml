@@ -14,6 +14,7 @@ before_script:
 
 stages:
 - lint
+- typecheck
 - test
 - build
 - deploy
@@ -27,6 +28,18 @@ lint:
   script:
   - docker-compose -f docker-compose.ci-test.yml run server ruff --version
   - docker-compose -f docker-compose.ci-test.yml run server ruff check --config pyproject.toml
+  after_script:
+  - docker-compose down
+  only:
+  - merge_request
+
+typecheck:
+  stage: typecheck
+  image:
+    name: docker/compose:1.27.3
+  before_script:
+  - docker-compose -f docker-compose.ci-test.yml build
+  script:
   - docker-compose -f docker-compose.ci-test.yml run server pyright
   after_script:
   - docker-compose down
