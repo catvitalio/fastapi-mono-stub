@@ -29,6 +29,7 @@ itsdangerous = "^2.1.2"
 ruff = "^0.3.7"
 pytest = "^8.1.1"
 debugpy = "^1.8.1"
+pyright = "^1.1.358"
 
 [tool.ruff]
 line-length = 100
@@ -61,6 +62,17 @@ section-order = ["future", "standard-library", "first-party", "third-party", "sr
 
 [tool.ruff.lint.isort.sections]
 src = ["config", "migrations", "tests", "src"]
+
+[tool.pyright]
+exclude = [
+    "**/node_modules",
+    "**/__pycache__",
+    "**/migrations",
+    "**/media",
+    "**/templates"
+]
+pythonVersion = "3.12"
+pythonPlatform = "Linux"
 
 [tool.pytest.ini_options]
 python_files = "tests.py test_*.py *_tests.py"

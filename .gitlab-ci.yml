@@ -27,6 +27,7 @@ lint:
   script:
   - docker-compose -f docker-compose.ci-test.yml run server ruff --version
   - docker-compose -f docker-compose.ci-test.yml run server ruff check --config pyproject.toml
+  - docker-compose -f docker-compose.ci-test.yml run server pyright
   after_script:
   - docker-compose down
   only:
