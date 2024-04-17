@@ -1,8 +1,8 @@
 # TODO
-1. cors
-2. pytest
-3. management scripts
-4. justfile / makefile
-5. password reset
-6. translations
-7. admin constants
+1. pytest
+2. management scripts
+3. justfile / makefile
+4. password reset
+5. translations
+6. admin constants
+7. readme
