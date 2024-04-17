@@ -1,12 +1,9 @@
 from fastapi import FastAPI
-from fastapi.staticfiles import StaticFiles
 
-from config import MIDDLEWARE, admin, api_router, lifespan
+from config import lifespan
+from config.middleware import MIDDLEWARE
 
-app = FastAPI(
-    middleware=MIDDLEWARE,
-    lifespan=lifespan,
-)
-app.include_router(api_router, prefix='/api')
-app.mount('/media', StaticFiles(directory='media'), name='media')
-admin.admin.mount_to(app)
+app = FastAPI(lifespan=lifespan)
+
+for middleware_class, kwargs in MIDDLEWARE:
+    app.add_middleware(middleware_class, **kwargs)
