@@ -1,9 +1,11 @@
 from pydantic import EmailStr, Field, PostgresDsn, RedisDsn, SecretStr
+from pydantic_core import MultiHostUrl
 from pydantic_settings import BaseSettings
 
 
 class Settings(BaseSettings):
-    POSTGRES_URI: PostgresDsn
+    DATABASE_URI: PostgresDsn
+    TEST_DATABASE_URI: MultiHostUrl = 'sqlite+aiosqlite:///:memory:'  # type: ignore
     REDIS_URI: RedisDsn
 
     SECRET_KEY: SecretStr

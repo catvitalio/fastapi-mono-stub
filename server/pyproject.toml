@@ -24,12 +24,15 @@ jinja2 = "^3.1.3"
 passlib = "^1.7.4"
 starlette-admin = {extras = ["i18n"], version = "^0.13.2"}
 itsdangerous = "^2.1.2"
+httpx = "^0.27.0"
 
 [tool.poetry.group.dev.dependencies]
 ruff = "^0.3.7"
 pytest = "^8.1.1"
 debugpy = "^1.8.1"
 pyright = "^1.1.358"
+aiosqlite = "^0.20.0"
+pytest-asyncio = "^0.23.6"
 
 [tool.ruff]
 line-length = 100
@@ -76,7 +79,7 @@ pythonPlatform = "Linux"
 
 [tool.pytest.ini_options]
 python_files = "tests.py test_*.py *_tests.py"
-addopts = "--rootdir=tests --maxfail=5"
+addopts = "--rootdir=tests --maxfail=5 -p no:warnings"
 
 [build-system]
 requires = ["poetry-core"]

@@ -6,7 +6,7 @@ x-server-common: &server-common
   volumes:
     - ./media/:/server/media
   environment:
-    POSTGRES_URI: postgresql+asyncpg://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db:5432/${POSTGRES_DB}
+    DATABASE_URI: postgresql+asyncpg://${DATABASE_USER}:${DATABASE_PASSWORD}@db:5432/${DATABASE}
     REDIS_URI: redis://redis:6379/1
     SECRET_KEY: ${SECRET_KEY}
   env_file:
@@ -42,9 +42,9 @@ services:
     restart: always
     user: postgres
     environment:
-      POSTGRES_DB: ${POSTGRES_DB}
-      POSTGRES_USER: ${POSTGRES_USER}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${DATABASE}
+      POSTGRES_USER: ${DATABASE_USER}
+      POSTGRES_PASSWORD: ${DATABASE_PASSWORD}
     healthcheck:
       test: pg_isready
       interval: 2s

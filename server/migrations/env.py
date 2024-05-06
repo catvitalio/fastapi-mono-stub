@@ -25,7 +25,7 @@ def run_migrations_offline():
     script output.
 
     """
-    url = settings.POSTGRES_URI.unicode_string()
+    url = settings.DATABASE_URI.unicode_string()
     context.configure(
         url=url,
         target_metadata=target_metadata,
@@ -53,7 +53,7 @@ async def run_migrations_online():
 
     """
     configuration = alembic_config.get_section(alembic_config.config_ini_section)
-    configuration['sqlalchemy.url'] = settings.POSTGRES_URI.unicode_string()
+    configuration['sqlalchemy.url'] = settings.DATABASE_URI.unicode_string()
     connectable = AsyncEngine(
         engine_from_config(
             configuration,
