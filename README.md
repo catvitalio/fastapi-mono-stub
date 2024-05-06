@@ -3,7 +3,6 @@
 # TODO
 
 - [ ] readme
-- [ ] pytest
 - [ ] management scripts
 - [ ] justfile / makefile
 - [ ] password reset
