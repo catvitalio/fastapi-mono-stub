@@ -6,5 +6,5 @@ from config.db import Session
 
 
 async def get_db() -> AsyncGenerator[AsyncSession, None]:
-    async with Session() as session:  # type: ignore
+    async with Session() as session:
         yield session
