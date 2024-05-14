@@ -7,3 +7,4 @@
 - [ ] password reset
 - [ ] translations
 - [ ] admin constants
+- [ ] ansible
