@@ -21,7 +21,7 @@ x-server-common: &server-common
 
 services:
   server:
-    command: uvicorn main:app --reload --host 0.0.0.0 --port 8000
+    command: python main.py run-server --reload
     ports:
       - 8000:8000
     <<: *server-common

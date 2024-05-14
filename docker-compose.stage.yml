@@ -30,7 +30,7 @@ services:
       - ./media/:/srv/media
 
   server:
-    command: uvicorn main:app --reload --host 0.0.0.0 --port 8000
+    command: python main.py run-server
     <<: *server-common
 
   taskiq:

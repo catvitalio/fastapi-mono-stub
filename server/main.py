@@ -1,9 +1,15 @@
-from fastapi import FastAPI
+from typer import Typer
 
-from config import lifespan
-from config.middleware import MIDDLEWARE
+from src.common.commands import run_server, shell
+from src.users.commands import create_admin
 
-app = FastAPI(lifespan=lifespan)
+commands = (run_server, shell, create_admin)
 
-for middleware_class, kwargs in MIDDLEWARE:
-    app.add_middleware(middleware_class, **kwargs)
+
+if __name__ == '__main__':
+    typer = Typer()
+
+    for command in commands:
+        typer.command()(command)
+
+    typer()
