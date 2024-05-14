@@ -1,8 +1,9 @@
 from typer import Typer
 
+from src.common.commands import shell
 from src.users.commands import create_admin
 
-commands = (create_admin,)
+commands = (shell, create_admin)
 
 
 if __name__ == '__main__':
