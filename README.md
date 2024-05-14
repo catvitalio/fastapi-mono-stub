@@ -3,9 +3,8 @@
 # TODO
 
 - [ ] readme
-- [ ] management scripts
+- [ ] fix errors in cli
 - [ ] justfile / makefile
 - [ ] password reset
 - [ ] translations
 - [ ] admin constants
-
