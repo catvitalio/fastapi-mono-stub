@@ -21,7 +21,7 @@ x-server-common: &server-common
 
 services:
   server:
-    command: python main.py run-server --reload
+    command: uvicorn config.fastapi:fastapi --reload --host 0.0.0.0 --port 8000
     ports:
       - 8000:8000
     <<: *server-common
