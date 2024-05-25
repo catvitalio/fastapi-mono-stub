@@ -5,8 +5,14 @@ from starlette import status
 
 from config.security import refresh_security
 from src.common.deps.db import get_db
-from ..dtos import LoginDto, RegisterCompleteDto, RegisterDto
-from ..services import LoginService, RegisterService
+from ..dtos import (
+    LoginDto,
+    RegisterCompleteDto,
+    RegisterDto,
+    ResetPasswordCompleteDto,
+    ResetPasswordDto,
+)
+from ..services.auth import LoginService, RegisterService, ResetPasswordService
 from ..utils import get_jwt_response
 
 router = APIRouter()
@@ -44,3 +50,20 @@ async def refresh(refresh: JwtAuthorizationCredentials = Depends(refresh_securit
 @router.post('/logout')
 async def logout() -> Response:
     return get_jwt_response(None)
+
+
+@router.post('/reset-password')
+async def reset_password(dto: ResetPasswordDto, db: AsyncSession = Depends(get_db)) -> Response:
+    service = ResetPasswordService(db)
+    await service.reset(dto)
+    return Response(status_code=status.HTTP_204_NO_CONTENT)
+
+
+@router.post('/reset-password/complete')
+async def reset_password_complete(
+    dto: ResetPasswordCompleteDto,
+    db: AsyncSession = Depends(get_db),
+) -> Response:
+    service = ResetPasswordService(db)
+    await service.complete(dto)
+    return Response(status_code=status.HTTP_204_NO_CONTENT)

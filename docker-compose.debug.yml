@@ -21,14 +21,14 @@ x-server-common: &server-common
 
 services:
   server:
-    command: python -m debugpy --listen 0.0.0.0:5678 -m uvicorn main:app --reload --host 0.0.0.0 --port 8000
+    command: python -m debugpy --listen 0.0.0.0:5678 -m uvicorn config.fastapi:fastapi --reload --host 0.0.0.0 --port 8000
     ports:
       - 8000:8000
       - 5678:5678
     <<: *server-common
 
   taskiq:
-    command: python -m debugpy --listen 0.0.0.0:5679 -m taskiq worker config.taskiq:broker --fs-discover --reload
+    command: python -m debugpy --listen 0.0.0.0:5679 -m taskiq worker config.taskiq:broker --fs-discover --reload --tasks-pattern **/tasks/*.py
     ports:
       - 5679:5679
     <<: *server-common

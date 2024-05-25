@@ -10,7 +10,7 @@ from src.common.deps.db import get_db
 from ..dtos.auth import LoginDto
 from ..exceptions.auth import AuthException
 from ..models.user import User
-from ..services import LoginService
+from ..services.auth import LoginService
 
 
 class EmailAndPasswordProvider(AuthProvider):

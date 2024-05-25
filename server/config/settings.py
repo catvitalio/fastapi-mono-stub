@@ -17,7 +17,7 @@ class Settings(BaseSettings):
     MAIL_FROM: EmailStr = 'example@mail.com'
     MAIL_FROM_NAME: str = 'example'
     MAIL_STARTTLS: bool = True
-    MAIL_SSL_TLS: bool = True
+    MAIL_SSL_TLS: bool = False
     MAIL_USE_CREDENTIALS: bool = True
     MAIL_VALIDATE_CERTS: bool = True
 

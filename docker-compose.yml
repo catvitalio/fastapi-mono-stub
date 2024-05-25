@@ -27,7 +27,7 @@ services:
     <<: *server-common
 
   taskiq:
-    command: taskiq worker config.taskiq:broker --fs-discover --reload
+    command: taskiq worker config.taskiq:broker --fs-discover --reload --tasks-pattern **/tasks/*.py
     <<: *server-common
 
   db:

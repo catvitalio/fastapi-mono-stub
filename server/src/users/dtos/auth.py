@@ -15,3 +15,12 @@ class RegisterDto(BaseModel):
 
 class RegisterCompleteDto(BaseModel):
     token: str
+
+
+class ResetPasswordDto(BaseModel):
+    email: EmailStr
+
+
+class ResetPasswordCompleteDto(BaseModel):
+    password: str
+    token: str

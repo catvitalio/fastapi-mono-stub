@@ -30,11 +30,11 @@ services:
       - ./media/:/srv/media
 
   server:
-    command: uvicorn main:app --reload --host 0.0.0.0 --port 8000
+    command: uvicorn config.fastapi:fastapi --reload --host 0.0.0.0 --port 8000
     <<: *server-common
 
   taskiq:
-    command: taskiq worker config.taskiq:broker --fs-discover
+    command: taskiq worker config.taskiq:broker --fs-discover --tasks-pattern **/tasks/*.py
     <<: *server-common
 
   db:
