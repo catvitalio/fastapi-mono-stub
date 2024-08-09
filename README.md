@@ -3,11 +3,14 @@
 This repository is intended as a template for future projects with a monolithic architecture. The stub uses the following libraries and technologies:
 - FastAPI
 - SQLAlchemy
-- FastAPI JWT (jwt auth)
-- taskiq (background/periodic tasks)
-- FastAPI Mail (emails sending)
-- Ruff (code linter and formatter)
 - Typer (CLI)
+- taskiq (background/periodic tasks)
+- pytest (tests)
+- Ruff (code linter and formatter)
+- FastAPI JWT (jwt auth)
+- FastAPI Mail (emails sending)
+- jinja2 (emails templates)
+- caddy (production server)
 
 ## Running the Server
 To start the server, use Docker Compose::
