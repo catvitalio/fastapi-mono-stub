@@ -13,7 +13,7 @@ This repository is intended as a template for future projects with a monolithic 
 - caddy (production server)
 
 ## Running the Server
-To start the server, use Docker Compose::
+To start the server, use Docker Compose:
 ```
 docker compose up
 ```
