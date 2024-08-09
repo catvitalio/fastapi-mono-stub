@@ -7,6 +7,7 @@ This repository is intended as a template for future projects with a monolithic 
 - taskiq (background/periodic tasks)
 - pytest (tests)
 - Ruff (code linter and formatter)
+- Starlette Admin (admin panel)
 - FastAPI JWT (jwt auth)
 - FastAPI Mail (emails sending)
 - jinja2 (emails templates)
