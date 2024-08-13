@@ -7,10 +7,12 @@ from sqlalchemy.ext.asyncio import AsyncEngine
 
 from config.settings import settings
 from src.common.models import Base
+from src.common.utils import find_models
 
 alembic_config = context.config
 fileConfig(alembic_config.config_file_name)
 target_metadata = Base.metadata
+find_models()
 
 
 def run_migrations_offline():

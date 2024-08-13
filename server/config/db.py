@@ -2,6 +2,7 @@ from sqlalchemy import StaticPool
 from sqlalchemy.ext.asyncio import AsyncSession, create_async_engine
 from sqlalchemy.orm import sessionmaker
 
+from src.common.utils import find_models
 from .settings import settings
 
 engine = create_async_engine(settings.DATABASE_URI.unicode_string())
@@ -18,3 +19,5 @@ TestSession: type[AsyncSession] = sessionmaker(
     bind=test_engine,
     class_=AsyncSession,
 )  # type: ignore
+
+find_models()
