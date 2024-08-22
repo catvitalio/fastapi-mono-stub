@@ -20,7 +20,7 @@ TestSession: type[AsyncSession] = sessionmaker(
 )  # type: ignore
 
 """
-Full project models. It necessary for migrations and correct relations working.
+All project models. It necessary for migrations and correct relations working.
 """
 from src.common import models  # noqa
 from src.users import models  # noqa
