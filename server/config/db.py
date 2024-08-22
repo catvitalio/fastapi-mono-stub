@@ -2,7 +2,6 @@ from sqlalchemy import StaticPool
 from sqlalchemy.ext.asyncio import AsyncSession, create_async_engine
 from sqlalchemy.orm import sessionmaker
 
-from src.common.utils import find_models
 from .settings import settings
 
 engine = create_async_engine(settings.DATABASE_URI.unicode_string())
@@ -20,4 +19,8 @@ TestSession: type[AsyncSession] = sessionmaker(
     class_=AsyncSession,
 )  # type: ignore
 
-find_models()
+"""
+Full project models. It necessary for migrations and correct relations working.
+"""
+from src.common import models  # noqa
+from src.users import models  # noqa

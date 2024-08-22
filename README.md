@@ -24,6 +24,16 @@ You can also run the server in debug mode with debugpy running on port 5679:
 docker compose -f docker-compose.debug.yml up
 ```
 
+## DB Relations / Migrations
+
+For correctly relations and migrations working, you need import all models in the `config -> db.py`:
+```
+# project models
+from src.common import models  # noqa
+from src.users import models  # noqa
+
+```
+
 # TODO
 
 - [ ] justfile / makefile

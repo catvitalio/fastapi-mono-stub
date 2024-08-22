@@ -2,17 +2,14 @@ import asyncio
 from logging.config import fileConfig
 
 from alembic import context
-from sqlalchemy import engine_from_config, pool
-from sqlalchemy.ext.asyncio import AsyncEngine
 
 from config.settings import settings
+from config.db import engine
 from src.common.models import Base
-from src.common.utils import find_models
 
 alembic_config = context.config
 fileConfig(alembic_config.config_file_name)
 target_metadata = Base.metadata
-find_models()
 
 
 def run_migrations_offline():
@@ -54,18 +51,7 @@ async def run_migrations_online():
     and associate a connection with the context.
 
     """
-    configuration = alembic_config.get_section(alembic_config.config_ini_section)
-    configuration['sqlalchemy.url'] = settings.DATABASE_URI.unicode_string()
-    connectable = AsyncEngine(
-        engine_from_config(
-            configuration,
-            prefix='sqlalchemy.',
-            poolclass=pool.NullPool,
-            future=True,
-        ),
-    )
-
-    async with connectable.connect() as connection:
+    async with engine.connect() as connection:
         await connection.run_sync(do_run_migrations)
 
 
