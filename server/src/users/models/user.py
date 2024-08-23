@@ -1,7 +1,7 @@
 from sqlalchemy import Boolean, ForeignKey, String
 from sqlalchemy.orm import Mapped, mapped_column
 
-from src.common.models import Base, Something
+from src.common.models import Base
 
 
 class User(Base):
@@ -11,4 +11,3 @@ class User(Base):
     last_name: Mapped[str] = mapped_column(String, index=True)
     is_active: Mapped[bool] = mapped_column(Boolean, default=True, nullable=False)
     is_admin: Mapped[bool] = mapped_column(Boolean, default=False, nullable=False)
-    something_id: Mapped[int] = mapped_column(ForeignKey(Something.id))
