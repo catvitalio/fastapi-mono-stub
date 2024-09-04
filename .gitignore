@@ -2,6 +2,7 @@
 .idea
 .vscode
 .pytest_cache
+.python-version
 
 *.log
 *.pyc
@@ -9,4 +10,5 @@
 *.sql
 *.7z
 .env
+.venv
 .ruff_cache
