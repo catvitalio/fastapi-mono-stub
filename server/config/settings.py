@@ -1,3 +1,5 @@
+from pathlib import Path
+
 from pydantic import EmailStr, Field, PostgresDsn, RedisDsn, SecretStr
 from pydantic_core import MultiHostUrl
 from pydantic_settings import BaseSettings
@@ -9,6 +11,8 @@ class Settings(BaseSettings):
     REDIS_URI: RedisDsn
 
     SECRET_KEY: SecretStr
+
+    TEMPLATE_FOLDER: str = Path.cwd().joinpath('templates').as_posix()
 
     MAIL_USERNAME: EmailStr = 'example@mail.com'
     MAIL_PASSWORD: SecretStr = Field('')
@@ -28,6 +32,9 @@ class Settings(BaseSettings):
     CORS_ALLOW_CREDENTIALS: bool = True
     CORS_ALLOW_METHODS: list[str] = ['*']
     CORS_ALLOW_HEADERS: list[str] = ['*']
+
+    MEDIA_ROOT: str = '/server/media'
+    STATIC_ROOT: str = '/server/static'
 
 
 settings = Settings()  # type: ignore

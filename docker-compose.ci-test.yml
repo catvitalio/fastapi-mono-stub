@@ -4,18 +4,13 @@ x-server-common: &server-common
   build:
     dockerfile: ./server/Dockerfile
     context: .
-  environment:
-    DATABASE_URI: postgresql+asyncpg://${DATABASE_USER}:${DATABASE_PASSWORD}@db:5432/${DATABASE}
-    REDIS_URI: redis://redis:6379/1
-    SECRET_KEY: ${SECRET_KEY}
   env_file:
-    - .env
+    - .env.test
   depends_on:
     db:
       condition: service_healthy
     redis:
       condition: service_healthy
-
 
 services:
   server:

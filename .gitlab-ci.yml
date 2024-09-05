@@ -29,7 +29,7 @@ lint:
   - docker-compose -f docker-compose.ci-test.yml run server ruff --version
   - docker-compose -f docker-compose.ci-test.yml run server ruff check --config pyproject.toml
   after_script:
-  - docker-compose down
+  - docker-compose -f docker-compose.ci-test.yml down
   only:
   - merge_request
 
@@ -42,7 +42,7 @@ typecheck:
   script:
   - docker-compose -f docker-compose.ci-test.yml run server pyright
   after_script:
-  - docker-compose down
+  - docker-compose -f docker-compose.ci-test.yml down
   only:
   - merge_request
 
@@ -55,7 +55,7 @@ test:
   script:
   - docker-compose -f docker-compose.ci-test.yml run server pytest
   after_script:
-  - docker-compose down
+  - docker-compose -f docker-compose.ci-test.yml down
   only:
   - merge_request
 

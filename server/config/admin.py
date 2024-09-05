@@ -12,6 +12,11 @@ admin = Admin(
     title='FastAPI Admin',
     i18n_config=I18nConfig(default_locale='ru'),
     auth_provider=EmailAndPasswordProvider(),
-    middlewares=[Middleware(SessionMiddleware, secret_key=settings.SECRET_KEY.get_secret_value())],
+    middlewares=[
+        Middleware(
+            SessionMiddleware,
+            secret_key=settings.SECRET_KEY.get_secret_value(),
+        ),
+    ],
 )
 admin.add_view(UserView(UserView.model, icon='fa fa-user'))
