@@ -1,5 +1,8 @@
 FROM python:3.12.2-slim
 
+ENV PYTHONDONTWRITEBYTECODE 1
+ENV PYTHONUNBUFFERED 1
+
 RUN mkdir /server && apt-get update && apt-get install -y git gcc libpq-dev postgresql-client
 WORKDIR /server
 

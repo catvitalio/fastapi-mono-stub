@@ -3,7 +3,7 @@ from typing import AsyncGenerator
 import pytest_asyncio
 from fastapi.testclient import TestClient
 
-from config.fastapi import fastapi
+from config. import fastapi
 from src.common.deps import get_db
 from .db import create_tables, test_get_db
 

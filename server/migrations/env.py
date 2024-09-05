@@ -3,8 +3,8 @@ from logging.config import fileConfig
 
 from alembic import context
 
-from config.settings import settings
 from config.db import engine
+from config.settings import settings
 from src.common.models import Base
 
 alembic_config = context.config

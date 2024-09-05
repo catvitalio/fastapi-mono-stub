@@ -16,6 +16,6 @@ mail = FastMail(
         MAIL_SSL_TLS=settings.MAIL_SSL_TLS,
         USE_CREDENTIALS=settings.MAIL_USE_CREDENTIALS,
         VALIDATE_CERTS=settings.MAIL_VALIDATE_CERTS,
-        TEMPLATE_FOLDER=Path('templates/'),
+        TEMPLATE_FOLDER=Path(settings.TEMPLATE_FOLDER),
     ),
 )

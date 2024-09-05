@@ -15,8 +15,10 @@ def include_api_router(app: FastAPI) -> None:
 
 
 def mount_media(app: FastAPI) -> None:
-    app.mount('/media', StaticFiles(directory='media'), name='media')
+    app.mount('/media', StaticFiles(directory=settings.MEDIA_ROOT), name='media')
 
+def mount_static(app: FastAPI) -> None:
+    app.mount('/static', StaticFiles(directory=settings.STATIC_ROOT), name='static')
 
 def mount_admin(app: FastAPI) -> None:
     admin.mount_to(app)
@@ -45,6 +47,8 @@ async def lifespan(app: FastAPI):
     include_api_router(app)
     mount_media(app)
     mount_admin(app)
+    mount_static(app)
+
     await startup_redis(app)
     await startup_taskiq_broker()
 

@@ -1,14 +1,23 @@
 version: '3.8'
 
+volumes:
+  media:
+    driver_opts:
+      type: none
+      o: bind
+      device: ${PWD}/media
+  static:
+    driver_opts:
+      type: none
+      o: bind
+      device: ${PWD}/static
+
 x-server-common: &server-common
   restart: always
   image: ${CI_REGISTRY}/${CI_PROJECT_NAMESPACE}/${CI_PROJECT_NAME}/server:develop-latest
   volumes:
-    - ./media/:/server/media
-  environment:
-    DATABASE_URI: postgresql+asyncpg://${DATABASE_USER}:${DATABASE_PASSWORD}@db:5432/${DATABASE}
-    REDIS_URI: redis://redis:6379/1
-    SECRET_KEY: ${SECRET_KEY}
+    - media:/server/media
+    - static:/server/static
   env_file:
     - .env
   depends_on:
@@ -16,7 +25,6 @@ x-server-common: &server-common
       condition: service_healthy
     redis:
       condition: service_healthy
-
 
 services:
   caddy:
@@ -26,12 +34,15 @@ services:
       - 80:80
       - 443:443
     volumes:
-      - ./caddy/Caddyfile.stage:/etc/caddy/Caddyfile
-      - ./media/:/srv/media
+      - media:/src/media
+      - static:/src/static
+      - ${PWD}/caddy/Caddyfile:/etc/caddy/Caddyfile
 
   server:
-    command: uvicorn config.fastapi:fastapi --reload --host 0.0.0.0 --port 8000
+    command: gunicorn -k uvicorn.workers.UvicornWorker -c gunicorn_conf.py config.app:app --preload -b 0.0.0.0:8000 --forwarded-allow-ips='*'
     <<: *server-common
+    expose:
+      - "8000"
 
   taskiq:
     command: taskiq worker config.taskiq:broker --fs-discover --tasks-pattern **/tasks/*.py

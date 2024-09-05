@@ -1,15 +1,30 @@
 version: '3.8'
 
+volumes:
+  server:
+    driver_opts:
+      type: none
+      o: bind
+      device: ${PWD}/server
+  media:
+    driver_opts:
+      type: none
+      o: bind
+      device: ${PWD}/volumes/media
+  static:
+    driver_opts:
+      type: none
+      o: bind
+      device: ${PWD}/volumes/static
+
 x-server-common: &server-common
   build:
     dockerfile: ./server/Dockerfile
     context: .
   volumes:
-    - ./server:/server
-  environment:
-    DATABASE_URI: postgresql+asyncpg://${DATABASE_USER}:${DATABASE_PASSWORD}@db:5432/${DATABASE}
-    REDIS_URI: redis://redis:6379/1
-    SECRET_KEY: ${SECRET_KEY}
+    - server:/server
+    - media:/server/media
+    - static:/server/static
   env_file:
     - .env
   depends_on:
@@ -17,7 +32,6 @@ x-server-common: &server-common
       condition: service_healthy
     redis:
       condition: service_healthy
-
 
 services:
   server:
