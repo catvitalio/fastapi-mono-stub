@@ -39,7 +39,7 @@ services:
       - ${PWD}/caddy/Caddyfile:/etc/caddy/Caddyfile
 
   server:
-    command: gunicorn -k uvicorn.workers.UvicornWorker -c gunicorn_conf.py config.app:app --preload -b 0.0.0.0:8000 --forwarded-allow-ips='*'
+    command: uvicorn config.fastapi:fastapi --reload --host 0.0.0.0 --port 8000
     <<: *server-common
     expose:
       - "8000"
