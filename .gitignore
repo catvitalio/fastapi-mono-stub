@@ -12,3 +12,8 @@
 .env
 .venv
 .ruff_cache
+
+volumes/media/*
+volumes/static/*
+server/media/*
+server/static/*
